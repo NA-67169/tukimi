@@ -51,3 +51,4 @@ AIによる自動検閲
 月の満ち欠け表示機能は'AstronomyAPI'を使用予定
 天気表示機能は'OpenWeatherMap API'を使用予定
 LINE通知機能は'Messaging API'を使用予定
+AIによる自動検閲は'google vision API'を使用予定
