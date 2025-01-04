@@ -1,5 +1,5 @@
 ### ER図
-[![Image from Gyazo](https://i.gyazo.com/f405c66356de668422b7437c655ab92d.png)](https://gyazo.com/f405c66356de668422b7437c655ab92d)
+[![Image from Gyazo](https://i.gyazo.com/09f7761884a337f07c73a093ef89d1bf.png)](https://gyazo.com/09f7761884a337f07c73a093ef89d1bf)
 
 ■サービス概要
 夜に散歩する人のためのCGMサービスです。  
