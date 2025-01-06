@@ -1,3 +1,6 @@
+### ER図
+[![Image from Gyazo](https://i.gyazo.com/09f7761884a337f07c73a093ef89d1bf.png)](https://gyazo.com/09f7761884a337f07c73a093ef89d1bf)
+
 ■サービス概要
 夜に散歩する人のためのCGMサービスです。  
 コアとなる機能は夜景などの画像を投稿する機能です。  
