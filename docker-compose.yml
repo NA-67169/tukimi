@@ -11,7 +11,7 @@ services:
     environment:
       - RAILS_ENV=development
       - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
-      - POSTGRES_HOST=db
+      - MYSQL_HOST=db
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
     depends_on:
@@ -33,15 +33,21 @@ services:
       - api
 
   db:
-    image: postgres:14
+    image: mysql:8.4.3
+    container_name: mysql_host
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    ports:
-      - "4000:4000"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_database
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+    - ./docker/db/data:/var/lib/mysql
+    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
 
 volumes:
   api_bundle:
