@@ -10,10 +10,10 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=development
-      - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
       - MYSQL_HOST=db
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
+      - MYSQL_DATABASE=test_database
     depends_on:
       - db
 
@@ -43,13 +43,12 @@ services:
       TZ: 'Asia/Tokyo'
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-    - ./docker/db/data:/var/lib/mysql
-    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    - ./docker/db/sql:/docker-entrypoint-initdb.d
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
-    - 3306:3306
+      - 3306:3306
 
 volumes:
   api_bundle:
   client_node_modules:
-  postgres_data:
