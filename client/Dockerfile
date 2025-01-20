@@ -1,8 +1,13 @@
 FROM node:23.6.0
 
-USER node
 WORKDIR /home/node/app
 
-RUN mkdir node_modules
+COPY --chown=node:node package.json yarn.lock ./
 
-CMD ["/bin/bash", "-c", "yarn install && yarn dev"]
+USER node
+
+RUN yarn install
+
+COPY --chown=node:node . .
+
+CMD ["yarn", "dev"]
