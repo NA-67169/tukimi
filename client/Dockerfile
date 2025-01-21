@@ -1,6 +1,6 @@
 FROM node:23.6.0
 
-WORKDIR /home/node/app
+WORKDIR /client
 
 COPY --chown=node:node package.json yarn.lock ./
 
