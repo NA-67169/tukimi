@@ -2,9 +2,11 @@ FROM node:23.6.0
 
 WORKDIR /client
 
-COPY --chown=node:node package.json yarn.lock ./
+RUN chown -R node:node /client
 
 USER node
+
+COPY --chown=node:node package.json ./
 
 RUN yarn install
 
