@@ -1,5 +1,5 @@
 services:
-  api:
+  aapi:
     build: 
       context: ./api
       dockerfile: Dockerfile
@@ -10,10 +10,11 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=development
+      - DATABASE_URL=mysql2://root:password@db:3306/mydatabase
       - MYSQL_HOST=db
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=docker
-      - MYSQL_DATABASE=test_database
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=mydatabase
     depends_on:
       - db
 
@@ -33,22 +34,17 @@ services:
       - api
 
   db:
-    image: mysql:8.4.3
-    container_name: mysql_host
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test_database
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-      TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ./docker/db/data:/var/lib/mysql
-      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./docker/db/sql:/docker-entrypoint-initdb.d
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
     ports:
-      - 3306:3306
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
 
 volumes:
   api_bundle:
   client_node_modules:
+  mysql_data:
