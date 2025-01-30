@@ -1,15 +1,2 @@
 source 'https://rubygems.org'
 gem 'rails', '7.2.2.1'
-gem "mysql2", "~> 0.5.5"
-gem "puma", ">= 5.0"
-gem "bootsnap", require: false
-gem "rack-cors"
-
-group :development, :test do
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem "rspec-rails"
-end
-
-group :development do
-  gem "error_highlight", platforms: [:ruby]
-end
