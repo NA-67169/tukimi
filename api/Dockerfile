@@ -11,7 +11,8 @@ RUN apt-get update -qq && \
 
 COPY Gemfile Gemfile.lock ./
 
-RUN bundle install
+RUN bundle config --local build.mysql2 "--with-mysql-config=/usr/bin/mysql_config" && \
+    bundle install
 
 COPY . .
 
