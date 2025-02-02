@@ -12,13 +12,10 @@ RUN apt-get update -qq && \
     cmake \
     && rm -rf /var/lib/apt/lists/*
 
-# GemfileとGemfile.lockをコピー
 COPY Gemfile* ./
 
-# bundle installの前に既存のGemfile.lockがある場合は削除
 RUN rm -f Gemfile.lock
 
-# MySQLのビルド設定とgemのインストール
 RUN bundle config build.mysql2 "--with-ldflags=-L/usr/lib/aarch64-linux-gnu" && \
     bundle install
 
