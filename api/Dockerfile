@@ -1,1 +1,5 @@
-FROM ruby:3.6.1
+FROM ruby:3.4.1
+
+COPY . .
+
+RUN 
