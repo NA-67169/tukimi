@@ -1,5 +1,5 @@
 FROM ruby:3.4.1
 
-COPY . .
+RUN apt-get update && apt-get install -y curl apt-transport-https wget
 
-RUN 
+COPY . .
