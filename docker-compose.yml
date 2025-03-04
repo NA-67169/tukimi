@@ -11,13 +11,13 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  backend:
+  api:
     build: 
-      context: ./backend
+      context: ./api
       dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - ./backend:/app
+      - ./api:/api
     ports:
       - "3000:3000"
     environment:
@@ -28,13 +28,13 @@ services:
     depends_on:
       - db
 
-  frontend:
+  client:
     build:
-      context: ./frontend
+      context: ./client
       dockerfile: Dockerfile
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./client:/api
+      - /api/node_modules
     ports:
       - "3001:3000"
     environment:
