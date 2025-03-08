@@ -11,13 +11,14 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  api:
+  backend:
     build: 
       context: ./api
       dockerfile: Dockerfile
+      target: ${ENVIRONMENT:-development}  # 環境変数で選択可能
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - ./api:/api
+      - ./api:/api  # 開発環境では共有
     ports:
       - "3000:3000"
     environment:
@@ -25,6 +26,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_HOST: db
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      RAILS_ENV: ${RAILS_ENV:-development}
     depends_on:
       - db
 
@@ -32,15 +34,17 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+      target: ${FRONTEND_ENV:-development}  # 環境変数で選択可能
     volumes:
-      - ./client:/api
-      - /api/node_modules
+      - ./client:/client  # 開発環境では共有
+      - /client/node_modules  # node_modulesは共有しない
     ports:
-      - "3001:3000"
+      - "3001:3000"  # 開発環境用
+      - "80:80"      # 本番環境用
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
     depends_on:
-      - backend
+      - api
 
 volumes:
   mysql_data:
