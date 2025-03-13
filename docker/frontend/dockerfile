@@ -1,4 +1,3 @@
-# ビルドステージ
 FROM node:23.9.0 AS builder
 
 WORKDIR /app
