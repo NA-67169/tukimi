@@ -43,5 +43,6 @@ services:
       - REACT_APP_API_URL=http://localhost:3000/api
 
 volumes:
+  mysql_data:
   backend_bundle:
   frontend_node_modules:
