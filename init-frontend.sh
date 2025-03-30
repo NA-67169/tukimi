@@ -8,7 +8,7 @@ mkdir -p frontend
 docker run --rm -it \
   -v $(pwd)/frontend:/app \
   -w /app \
-  node:18 bash -c "
+  node:23.9.0 bash -c "
     # 現在のディレクトリに新しいVite+Reactプロジェクトを作成
     npm create vite@latest . -- --template react
     
