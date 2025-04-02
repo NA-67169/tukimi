@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:8.0
@@ -7,44 +5,41 @@ services:
       - mysql_data:/var/lib/mysql
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: app_production
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
       context: .
       dockerfile: docker/backend/Dockerfile
+      target: production
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      DATABASE_URL: mysql2://root:${DB_PASSWORD}@db/app_production
       RAILS_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      TZ: ${TZ}
     restart: always
 
   frontend:
     build:
       context: .
       dockerfile: docker/frontend/Dockerfile
-    depends_on:
-      - backend
-    environment:
-      - NODE_ENV=production
-      - REACT_APP_API_URL=/api
-    restart: always
-
-  nginx:
-    image: nginx:alpine
+      target: production
     ports:
       - "80:80"
-      - "443:443"
-    volumes:
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d
-      - ./docker/nginx/ssl:/etc/nginx/ssl
     depends_on:
       - backend
-      - frontend
     restart: always
 
 volumes:

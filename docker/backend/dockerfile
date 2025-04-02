@@ -1,29 +1,52 @@
-FROM ruby:3.4.2 AS builder
+# ベースステージ
+FROM ruby:3.4.2-slim AS base
 
 WORKDIR /app
 
+# 必要なパッケージをインストール
 RUN apt-get update -qq && \
-    apt-get install -y build-essential libpq-dev nodejs npm
-
-RUN npm install -g yarn
-
-COPY backend/Gemfile* ./
-
-RUN bundle install --jobs=4
-
-FROM ruby:3.4.2-slim
-
-WORKDIR /app
-
-RUN apt-get update -qq && \
-    apt-get install -y libpq-dev nodejs npm && \
+    apt-get install -y build-essential libpq-dev nodejs npm default-libmysqlclient-dev && \
+    npm install -g yarn && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /usr/local/bundle /usr/local/bundle
+# エントリーポイントスクリプトを設定
+COPY docker/backend/entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
+# 開発ステージ
+FROM base AS development
+
+ENV RAILS_ENV=development
+ENV BUNDLE_WITHOUT="production"
+
+# ビルドステージ
+FROM base AS builder
+
+WORKDIR /app
+
+# Gemfileをコピーして依存関係をインストール
+COPY backend/Gemfile backend/Gemfile.lock ./
+RUN bundle install --jobs=4
+
+# アプリケーションコードをコピー
 COPY backend .
 
-EXPOSE 3000
+# 本番向けの設定
+ENV RAILS_ENV=production
+RUN bundle exec rake assets:precompile
 
+# 本番ステージ
+FROM base AS production
+
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+
+# ビルドステージからGemと最適化されたアセットをコピー
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY --from=builder /app /app
+
+# サーバー起動
+EXPOSE 3000
 CMD ["rails", "server", "-b", "0.0.0.0"]
