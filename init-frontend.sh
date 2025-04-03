@@ -17,7 +17,7 @@ docker run --rm -it \
     # 依存関係をインストール
     npm install
     
-    # 追加の必要な依存関係をインストール（@tanstack/react-queryを使用）
+    # 追加の必要な依存関係をインストール
     npm install @vitejs/plugin-react --save-dev axios react-router-dom @tanstack/react-query
     
     # 適切なファイル権限を設定

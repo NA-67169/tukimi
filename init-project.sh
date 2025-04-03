@@ -81,7 +81,7 @@ services:
 EOF
 
 # Railsプロジェクトを初期化
-docker-compose -f docker-compose.init-backend.yml run --rm backend-init
+docker compose -f docker-compose.init-backend.yml run --rm backend-init
 
 echo "Railsアプリケーションの環境変数設定ファイルを更新しています..."
 cat > backend/config/database.yml << 'EOF'
@@ -205,7 +205,7 @@ docker run --rm -it \
     npm install
     
     # 追加の必要な依存関係をインストール
-    npm install @vitejs/plugin-react --save-dev axios react-router-dom react-query
+    npm install @vitejs/plugin-react --save-dev axios react-router-dom @tanstack/react-query
     
     # 適切なファイル権限を設定
     chmod -R 777 .
@@ -325,7 +325,7 @@ services:
       RAILS_ENV: ${RAILS_ENV}
       DATABASE_URL: ${DATABASE_URL}
       TZ: ${TZ}
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"
+    command: bash -c "bundle install && rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"
 
   frontend:
     build:
@@ -342,7 +342,7 @@ services:
     environment:
       NODE_ENV: development
       VITE_API_URL: http://localhost:3000/api
-    command: npm run dev
+    command: bash -c "npm install && npm run dev"
 
 volumes:
   mysql_data:
