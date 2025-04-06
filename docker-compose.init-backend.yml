@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  backend-init:
+    build:
+      context: .
+      dockerfile: docker/backend/init.Dockerfile
+    volumes:
+      - ./backend:/app
+    command: bash -c "rails new . --force --api --database=mysql --skip-git && chmod -R 777 ."
