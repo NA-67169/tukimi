@@ -2,7 +2,7 @@
   "name": "Ruby on Rails Backend",
   "dockerComposeFile": "../../docker-compose.yml",
   "service": "backend",
-  "workspaceFolder": "/rails",
+  "workspaceFolder": "/app",
   "customizations": {
     "vscode": {
       "extensions": [
