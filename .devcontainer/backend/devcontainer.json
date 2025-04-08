@@ -1,0 +1,28 @@
+{
+  "name": "Ruby on Rails Backend",
+  "dockerComposeFile": "../../docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "shopify.ruby-lsp",
+        "castwide.solargraph",
+        "misogi.ruby-rubocop",
+        "kaiwood.endwise",
+        "aki77.rails-db-schema",
+        "hridoy.rails-snippets",
+        "bung87.rails"
+      ],
+      "settings": {
+        "ruby.lint": {
+          "rubocop": true
+        },
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "bundle install"
+}
