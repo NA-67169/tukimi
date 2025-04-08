@@ -6,11 +6,13 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "rebornix.ruby",
+        "shopify.ruby-lsp",
         "castwide.solargraph",
         "misogi.ruby-rubocop",
         "kaiwood.endwise",
-        "aki77.rails-db-schema"
+        "aki77.rails-db-schema",
+        "hridoy.rails-snippets",
+        "bung87.rails"
       ],
       "settings": {
         "ruby.lint": {
